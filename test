@@ -1,1 +1,105 @@
+def cadastrar_cliente():
+    print("Cadastro de Cliente")
+    nome = input("Nome: ")
+    email = input("E-mail: ")
+    telefone = input("Telefone: ")
+    endereco = input("Endereço: ")
+    
 
+    
+    print("Cliente cadastrado com sucesso!")
+    
+    
+    def cadastrar_produto():
+    print("Cadastro de Produto")
+    nome = input("Nome: ")
+    descricao = input("Descrição: ")
+    preco = float(input("Preço: "))
+    quantidade = int(input("Quantidade em estoque: "))
+    
+
+    
+    print("Produto cadastrado com sucesso!")
+    
+    def controle_fiado():
+    print("Controle de Fiado")
+    nome_cliente = input("Nome do cliente: ")
+    valor_compra = float(input("Valor da compra: "))
+    data_vencimento = input("Data de vencimento (dd/mm/aaaa): ")
+    
+    
+    
+    print("Fiado cadastrado com sucesso!")
+    
+    
+    def registrar_pedido():
+    print("Registro de Pedido")
+    nome_cliente = input("Nome do cliente: ")
+    id_produto = int(input("ID do produto: "))
+    quantidade = int(input("Quantidade: "))
+    data_pedido = input("Data do pedido (dd/mm/aaaa): ")
+    
+
+    
+    print("Pedido registrado com sucesso!")
+    
+    def melhores_clientes():
+    print("Lista dos Melhores Clientes")
+    
+    
+    # Exemplo de exibição dos resultados
+    print("Top 5 clientes:")
+    print("1. Cliente A - R$ 10.000,00")
+    print("2. Cliente B - R$ 8.500,00")
+    print("3. Cliente C - R$ 7.200,00")
+    print("4. Cliente D - R$ 6.500,00")
+    print("5. Cliente E - R$ 5.800,00")
+    
+    import smtplib
+
+def aviso_estoque_minimo():
+    print("Aviso de Estoque Mínimo")
+    
+    # Conexão com o banco de dados
+    conn = sqlite3.connect('banco_de_dados.db')
+    cursor = conn.cursor()
+    
+    # Consulta SQL para buscar os produtos com estoque abaixo do mínimo
+    query = '''
+        SELECT nome, quantidade
+        FROM produtos
+        WHERE quantidade < estoque_minimo
+    '''
+    cursor.execute(query)
+    resultados = cursor.fetchall()
+    
+    # Verificação dos resultados e envio do e-mail de aviso
+    if resultados:
+        # Configuração do servidor SMTP e autenticação
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+        sender_email = "seu_email@gmail.com"
+        sender_password = "sua_senha"
+        receiver_email = "email_destinatario@gmail.com"
+        subject = "Aviso de Estoque Mínimo"
+        
+        # Criação do corpo do e-mail
+        message = "Segue abaixo a lista de produtos com estoque abaixo do mínimo:\n\n"
+        for resultado in resultados:
+            message += f"{resultado[0]} - {resultado[1]} unidades\n"
+        
+        # Envio do e-mail
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, receiver_email, f"Subject: {subject}\n\n{message}")
+        
+        print("E-mail de aviso enviado com sucesso!")
+    else:
+        print("Não há produtos com estoque abaixo do mínimo.")
+    
+    # Fechamento da conexão com o banco de dados
+    cursor.close()
+    conn.close()
+    
+    
